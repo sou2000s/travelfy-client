@@ -5,10 +5,14 @@ import useTitle from "../../hooks/useTitle";
 import {FcGoogle} from 'react-icons/fc'
 import toast from "react-hot-toast";
 import Footer from "../Footer/Footer";
+import { useState } from "react";
 const Register = () => {
   useTitle('Register')
   const {createUser,setUserNameAndProfile , setUserProfile , googleAuthentication} = useContext(AuthContext)
   const navigate = useNavigate()
+
+  const [err , setErr] = useState('')
+
  const handleRegister = e =>{
     e.preventDefault()
     const form = e.target;
@@ -23,6 +27,7 @@ const Register = () => {
       const currentuser = {
         email: res.user.email
       }
+      setErr("")
       handleUserProfile(name , photoURL)
       form.reset()
       toast.success("welcome")
@@ -42,7 +47,7 @@ const Register = () => {
    })
 
     })
-    .catch(err => console.log(err.message))
+    .catch(err => setErr(err.message))
  }
 
  const handleUserProfile = (name , photoURL) =>{
@@ -55,7 +60,7 @@ const Register = () => {
   .then(()=>{
     setUserProfile(profile)
   })
-  .catch(err => console.log(err.message))
+  .catch(err => setErr(err.message))
  }
 
 
@@ -81,7 +86,7 @@ const Register = () => {
    })
     
   })
-  .catch(error => console.log(error.message))
+  .catch(error => setErr(error.message))
  }
 
   return (
@@ -139,6 +144,7 @@ const Register = () => {
                 />
                 
               </div>
+              <p className="text-red-400">{err}</p>
               <div className="form-control mt-6">
                 <button className="btn btn-success" type="submit">Regisret</button>
               </div>
