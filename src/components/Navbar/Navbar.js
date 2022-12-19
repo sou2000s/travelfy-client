@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
-
+import {GiHamburgerMenu} from 'react-icons/gi'
+import {AiOutlineClose} from 'react-icons/ai'
 const Navbar = () => {
-
+    const [open, setOpen] = useState(false);
       
     const {user ,logout} = useContext(AuthContext)
     const handleLogout = ()=>{
@@ -11,7 +12,10 @@ const Navbar = () => {
         .then(()=>{})
         .catch(error=> console.log(error.message))
     }
-
+      
+    const handleNavbar = () =>{
+        setOpen(!open)
+    }
 
 
     
@@ -37,7 +41,12 @@ const Navbar = () => {
            
             </ul>
          
-           
+                
+            <div onClick={handleNavbar} className="md:hidden text-3xl">
+                 {
+                    open ? <AiOutlineClose/> : <GiHamburgerMenu/>
+                 }
+             </div>
            
            
             
