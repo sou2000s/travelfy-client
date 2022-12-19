@@ -5,10 +5,12 @@ import { AuthContext } from '../../contexts/AuthProvider';
 import useTitle from '../../hooks/useTitle';
 import Footer from '../Footer/Footer';
 import {FcGoogle} from 'react-icons/fc'
+import { useState } from 'react';
 const Login = () => {
-    useTitle('login')  
+   const [err , setErr] = useState('')  
+  useTitle('login')  
     const {login , googleAuthentication} = useContext(AuthContext)
-
+      
 
     const location = useLocation()
     const from = location.state?.from?.pathname || "/" 
@@ -25,6 +27,7 @@ const Login = () => {
     const currentuser = {
       email: res.user.email
   }
+   setErr('')
   
    fetch('https://travelfy.vercel.app/jwt' , {
       method: "POST",
@@ -40,7 +43,7 @@ const Login = () => {
    })
     navigate(from, { replace: true })
    })
-   .catch(error => console.log(error.message))
+   .catch(error => setErr(error.message))
       
 
    
@@ -69,7 +72,7 @@ const Login = () => {
        })
        navigate(from, { replace: true })
       })
-      .catch(error => console.log(error.message))
+      .catch(error => setErr(error.message))
     }
     return (
         <div>
@@ -111,6 +114,7 @@ const Login = () => {
                   </Link>
                 </label>
               </div>
+              <p className='text-red-400'>{err}</p>
               <div className="form-control mt-6">
                 <button className="btn btn-primary" type="submit">Login</button>
               </div>
